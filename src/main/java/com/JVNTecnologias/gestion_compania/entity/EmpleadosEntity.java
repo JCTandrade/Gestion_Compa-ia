@@ -11,33 +11,28 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name ="compania")
-public class CompaniaEntity {
+@Table(name = "empleado")
+public class EmpleadosEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_compania")
-    private Long idCompania;
+    @Column(name = "id_empleado")
+    private Long idEmpleado;
 
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "nit")
-    private String nit;
-
-    @Column(name = "propietario")
-    private String propietario;
-
-    @Column(name = "direccion")
-    private String direccion;
-
-    @Column(name = "telefono")
-    private String telefono;
+    @Column(name = "apellido")
+    private String apellido;
 
     @Column(name = "email")
     private String email;
 
+    @Column(name = "telefono")
+    private String telefono;
+
     @Column(name = "fecha_creacion")
-    private LocalDate createdAt;
+    private LocalDate createdAp;
 
     @Column(name = "fecha_actualizacion")
     private String updatedAt;
