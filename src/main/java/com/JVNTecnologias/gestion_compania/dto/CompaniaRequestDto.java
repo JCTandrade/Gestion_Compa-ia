@@ -1,13 +1,14 @@
 package com.JVNTecnologias.gestion_compania.dto;
 
+import com.JVNTecnologias.gestion_compania.Enum.EstadoRegistroEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 @Schema(description = "Request solicitado para la creación de una compañía.")
 public class CompaniaRequestDto {
+    private Long idCompania;
 
     @NotNull(message = "El nombre no puede ser nulo")
     @NotBlank(message = "El nombre no puede estar vacío")
@@ -43,4 +44,8 @@ public class CompaniaRequestDto {
     @Email(message = "El email debe ser una dirección de correo electrónico válida")
     @Schema(description = "Email de la compañía.", example = "Olimpica@gmail.com")
     private String email;
+
+    @Schema(description = "El campo estado en la creacion de la compañia por defecto se toma en ACTIVO", example = "ACTIVO")
+    private EstadoRegistroEnum estadoRegistro;
+
 }
