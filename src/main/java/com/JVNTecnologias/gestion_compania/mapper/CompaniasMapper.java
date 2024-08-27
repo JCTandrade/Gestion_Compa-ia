@@ -5,9 +5,15 @@ import com.JVNTecnologias.gestion_compania.entity.CompaniaEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface CompaniasMapper {
     CompaniasMapper INSTANCE = Mappers.getMapper(CompaniasMapper.class);
 
     CompaniaEntity toEntity(CompaniaRequestDto entity);
+
+    List<CompaniaRequestDto>toListDto(List<CompaniaEntity> companiaEntityList);
+
+    CompaniaRequestDto toDto(CompaniaEntity entity);
 }
