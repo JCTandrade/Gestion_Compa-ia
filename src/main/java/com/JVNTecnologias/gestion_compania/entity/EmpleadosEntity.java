@@ -38,7 +38,7 @@ public class EmpleadosEntity {
     private LocalDate createdAp;
 
     @Column(name = "fecha_actualizacion")
-    private String updatedAt;
+    private LocalDate updatedAt;
 
     @Column(name = "estado_registro")
     private EstadoRegistroEnum estadoRegistro;

@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(uses = SucursalMapper.class)
 public interface EmpleadoMapper {
 
@@ -16,4 +18,9 @@ public interface EmpleadoMapper {
     @Mapping(source = "idEmpleado", target = "idEmpleado")
     @Mapping(source = "sucursal", target = "sucursal")
     EmpleadoDto toEmpleadoDto(EmpleadosEntity empleadosEntity);
+
+    @Mapping(source = "idEmpleado", target = "idEmpleado")
+    @Mapping(source = "sucursal", target = "sucursal")
+    List<EmpleadoDto> toEmpleadoDtos(List<EmpleadosEntity> empleadosEntities);
+
 }
