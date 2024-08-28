@@ -3,7 +3,7 @@ package com.JVNTecnologias.gestion_compania.controller;
 import com.JVNTecnologias.gestion_compania.constant.Constant;
 import com.JVNTecnologias.gestion_compania.dto.CompaniaRequestDto;
 import com.JVNTecnologias.gestion_compania.dto.ResponseGenerico;
-import com.JVNTecnologias.gestion_compania.service.IGestionCompaniaService;
+import com.JVNTecnologias.gestion_compania.service.ICompaniaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,21 +22,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.mockito.Mockito.when;
 
-class GestionCompaniaControllerTest {
+class CompaniaControllerTest {
 
     private String URL = "/v1/companias/";
     private MockMvc mockMvc;
 
     @Mock
-    private IGestionCompaniaService iGestionCompaniaService;
+    private ICompaniaService iCompaniaService;
 
     @InjectMocks
-    private GestionCompaniaController gestionCompaniaController;
+    private CompaniaController companiaController;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(gestionCompaniaController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(companiaController).build();
     }
 
     private static String asJsonString(final Object obj) {
@@ -64,7 +64,7 @@ class GestionCompaniaControllerTest {
         response.setData(requestDto);
 
 
-        when(iGestionCompaniaService.guardar(any(CompaniaRequestDto.class))).thenReturn(response);
+        when(iCompaniaService.guardar(any(CompaniaRequestDto.class))).thenReturn(response);
 
 
         mockMvc.perform(post(URL+ "guardar")
@@ -82,6 +82,6 @@ class GestionCompaniaControllerTest {
                 .andExpect(jsonPath("$.data.email").value("Olimpica@gmail.com"));
 
 
-        verify(iGestionCompaniaService, times(1)).guardar(any(CompaniaRequestDto.class));
+        verify(iCompaniaService, times(1)).guardar(any(CompaniaRequestDto.class));
     }
 }

@@ -5,7 +5,7 @@ import com.JVNTecnologias.gestion_compania.dto.CompaniaRequestDto;
 import com.JVNTecnologias.gestion_compania.dto.ResponseGenerico;
 import com.JVNTecnologias.gestion_compania.entity.CompaniaEntity;
 import com.JVNTecnologias.gestion_compania.mapper.CompaniasMapper;
-import com.JVNTecnologias.gestion_compania.repository.GestionCompaniaRepository;
+import com.JVNTecnologias.gestion_compania.repository.CompaniaRepository;
 import com.JVNTecnologias.gestion_compania.utils.GeneradorRespuesta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +19,11 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class GestionCompaniaImplServiceTest {
 
-    @InjectMocks GestionCompaniaImplService gestionCompaniaImplService;
+    @InjectMocks
+    CompaniaImplService gestionCompaniaImplService;
 
     @Mock
-    GestionCompaniaRepository gestionCompaniaRepository;
+    CompaniaRepository companiaRepository;
 
     @Mock
     GeneradorRespuesta generadorRespuesta;
@@ -53,7 +54,7 @@ class GestionCompaniaImplServiceTest {
 
     @Test
     void testGuardarCompaniaOK() {
-        when(gestionCompaniaRepository.save(any())).thenReturn(companiaEntity);
+        when(companiaRepository.save(any())).thenReturn(companiaEntity);
         when(generadorRespuesta.generarRespuesta(any(),any(),any(),any())).thenReturn(responseGenerico);
 
         var servicio = this.gestionCompaniaImplService.guardar(companiaRequestDto);
