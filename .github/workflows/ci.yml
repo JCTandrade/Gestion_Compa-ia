@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Generate coverage report
+        run: mvn jacoco:report
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: target/site/jacoco
+
+      - name: Check code coverage
+        run: |
+          coverage=$(grep 'Coverage' target/site/jacoco/index.html | awk -F'[<>]' '{print $3}' | sed 's/%//')
+          if (( $(echo "$coverage < 60" | bc -l) )); then
+            echo "Coverage is below 60%: $coverage%"
+            exit 1
+          else
+            echo "Coverage is sufficient: $coverage%"
+          fi
