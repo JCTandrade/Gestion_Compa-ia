@@ -1,7 +1,9 @@
 package com.JVNTecnologias.gestion_compania.entity;
 
+import com.JVNTecnologias.gestion_compania.Enum.EstadoRegistroEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "empleado")
+@Builder(toBuilder = true)
 public class EmpleadosEntity {
 
     @Id
@@ -35,5 +38,12 @@ public class EmpleadosEntity {
     private LocalDate createdAp;
 
     @Column(name = "fecha_actualizacion")
-    private String updatedAt;
+    private LocalDate updatedAt;
+
+    @Column(name = "estado_registro")
+    private EstadoRegistroEnum estadoRegistro;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sucursal_id", nullable = false)
+    private SucursalEntity sucursal;
 }

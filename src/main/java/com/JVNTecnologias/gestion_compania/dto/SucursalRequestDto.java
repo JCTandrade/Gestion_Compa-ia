@@ -5,30 +5,26 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-@Schema(description = "Request solicitado para la creación de una compañía.")
-public class CompaniaRequestDto {
+public class SucursalRequestDto {
+
+    @NotNull(message = "El ID de la compañía no puede ser nulo")
+    @Schema(description = "ID de la compañía.", example = "34")
     private Long idCompania;
+
+    private Long idSucursal;
 
     @NotNull(message = "El nombre no puede ser nulo")
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
-    @Schema(description = "Nombre de la compañía.", example = "Empresas olimpica S.A")
+    @Schema(description = "Nombre de la sucursal.", example = "Almacen exito S.A")
     private String nombre;
 
-    @NotNull(message = "El NIT no puede ser nulo")
-    @NotBlank(message = "El NIT no puede estar vacío")
-    @Size(max = 100, message = "El NIT no puede tener más de 100 caracteres")
-    @Schema(description = "NIT de la compañía.", example = "123456-7363")
-    private String nit;
-
-    @NotNull(message = "El propietario no puede ser nulo")
-    @NotBlank(message = "El propietario no puede estar vacío")
-    @Size(max = 100, message = "El propietario no puede tener más de 100 caracteres")
-    @Schema(description = "Propietario de la compañía.", example = "Carlos mario Tovar")
-    private String propietario;
+    @NotNull(message = "El responsable no puede ser nulo")
+    @NotBlank(message = "El responsable no puede estar vacío")
+    @Size(max = 100, message = "El responsable no puede tener más de 100 caracteres")
+    @Schema(description = "Responsable de la sucursal", example = "Carlos tovar")
+    private String responsable;
 
     @NotNull(message = "El direccion no puede ser nulo")
     @NotBlank(message = "El direccion no puede estar vacío")
@@ -47,9 +43,6 @@ public class CompaniaRequestDto {
     @Schema(description = "Email de la compañía.", example = "Olimpica@gmail.com")
     private String email;
 
-    @Schema(description = "El campo estado en la creacion de la compañia por defecto se toma en ACTIVO", example = "ACTIVO")
+    @Schema(description = "El campo estado en la creacion de la sucursal por defecto se toma en ACTIVO", example = "ACTIVO")
     private EstadoRegistroEnum estadoRegistro;
-
-    List<SucursalRequestDto>sucursales;
-
 }

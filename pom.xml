@@ -121,6 +121,11 @@
 									</limits>
 								</rule>
 							</rules>
+							<excludes>
+								<exclude>com/JVNTecnologias/gestion_compania/dto/**</exclude>
+								<exclude>com/JVNTecnologias/gestion_compania/config/**</exclude>
+								<exclude>com/JVNTecnologias/gestion_compania/utils/**</exclude>
+							</excludes>
 						</configuration>
 					</execution>
 				</executions>

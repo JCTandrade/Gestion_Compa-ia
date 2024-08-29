@@ -3,7 +3,7 @@ package com.JVNTecnologias.gestion_compania.controller;
 
 import com.JVNTecnologias.gestion_compania.dto.CompaniaRequestDto;
 import com.JVNTecnologias.gestion_compania.dto.ResponseGenerico;
-import com.JVNTecnologias.gestion_compania.service.IGestionCompaniaService;
+import com.JVNTecnologias.gestion_compania.service.ICompaniaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -22,9 +22,9 @@ import javax.validation.Valid;
 @RequestMapping(value = "v1/companias", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Compañia", description = "Operaciones relacionadas con las compañias")
 @AllArgsConstructor
-public class GestionCompaniaController {
+public class CompaniaController {
 
-    IGestionCompaniaService iGestionCompaniaService;
+    ICompaniaService iCompaniaService;
 
     @PostMapping("/guardar")
     @Operation(summary = "Método que permite la creación de una nueva compañía.", description = "Devuelve objecto generico con la compañia creada")
@@ -39,7 +39,7 @@ public class GestionCompaniaController {
                             )))
     })
     public ResponseEntity<ResponseGenerico> guardar(@Valid @RequestBody CompaniaRequestDto companiaRequestDto) {
-        ResponseGenerico servicio = this.iGestionCompaniaService.guardar(companiaRequestDto);
+        ResponseGenerico servicio = this.iCompaniaService.guardar(companiaRequestDto);
         return new ResponseEntity<>(servicio, servicio.getStatus());
     }
 
@@ -59,7 +59,7 @@ public class GestionCompaniaController {
                             )))
     })
     public ResponseEntity<ResponseGenerico> listar() {
-        ResponseGenerico servicio = this.iGestionCompaniaService.listar();
+        ResponseGenerico servicio = this.iCompaniaService.listar();
         return new ResponseEntity<>(servicio, servicio.getStatus());
     }
     @GetMapping("buscar/{id}")
@@ -77,7 +77,7 @@ public class GestionCompaniaController {
             @ApiResponse(responseCode = "404", description = "La compañía con el ID especificado no fue encontrada.")
     })
     public ResponseEntity<ResponseGenerico> buscarPorId(@PathVariable Long id) {
-        ResponseGenerico servicio = this.iGestionCompaniaService.buscarPorId(id);
+        ResponseGenerico servicio = this.iCompaniaService.buscarPorId(id);
         return new ResponseEntity<>(servicio, servicio.getStatus());
     }
 
@@ -104,7 +104,7 @@ public class GestionCompaniaController {
             )
     })
     public ResponseEntity<ResponseGenerico> actualizar(@PathVariable Long id, @Valid @RequestBody CompaniaRequestDto companiaRequestDto) {
-        ResponseGenerico servicio = this.iGestionCompaniaService.actualizar(id, companiaRequestDto);
+        ResponseGenerico servicio = this.iCompaniaService.actualizar(id, companiaRequestDto);
         return new ResponseEntity<>(servicio, servicio.getStatus());
     }
 
@@ -131,7 +131,7 @@ public class GestionCompaniaController {
             )
     })
     public ResponseEntity<ResponseGenerico> eliminar(@PathVariable Long id) {
-        ResponseGenerico servicio = this.iGestionCompaniaService.eliminar(id);
+        ResponseGenerico servicio = this.iCompaniaService.eliminar(id);
         return new ResponseEntity<>(servicio, servicio.getStatus());
     }
 }

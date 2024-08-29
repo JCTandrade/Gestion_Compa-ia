@@ -1,7 +1,12 @@
 package com.JVNTecnologias.gestion_compania.entity;
 
+import com.JVNTecnologias.gestion_compania.Enum.EstadoRegistroEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "sucursal")
+@Builder(toBuilder = true)
 public class SucursalEntity {
 
     @Id
@@ -38,5 +44,12 @@ public class SucursalEntity {
     private LocalDate createdAt;
 
     @Column(name = "fecha_actualizacion")
-    private String updatedAt;
+    private LocalDate updatedAt;
+
+    @Column(name = "estado_registro")
+    private EstadoRegistroEnum estadoRegistro;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "compania_id", nullable = false)
+    private CompaniaEntity compania;
 }
