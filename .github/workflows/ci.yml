@@ -16,6 +16,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
+          distribution: 'adoptopenjdk'
           java-version: '17'
 
       - name: Build with Maven
@@ -35,7 +36,10 @@ jobs:
 
       - name: Check code coverage
         run: |
+          # Extraer el porcentaje de cobertura
           coverage=$(grep 'Coverage' target/site/jacoco/index.html | awk -F'[<>]' '{print $3}' | sed 's/%//')
+          
+          # Comparar con el umbral
           if (( $(echo "$coverage < 60" | bc -l) )); then
             echo "Coverage is below 60%: $coverage%"
             exit 1
