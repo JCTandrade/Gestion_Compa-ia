@@ -1,9 +1,7 @@
 package com.JVNTecnologias.gestion_compania.controller;
 
-import com.JVNTecnologias.gestion_compania.dto.CompaniaRequestDto;
 import com.JVNTecnologias.gestion_compania.dto.ResponseGenerico;
 import com.JVNTecnologias.gestion_compania.dto.SucursalRequestDto;
-import com.JVNTecnologias.gestion_compania.entity.SucursalEntity;
 import com.JVNTecnologias.gestion_compania.service.ISucursalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

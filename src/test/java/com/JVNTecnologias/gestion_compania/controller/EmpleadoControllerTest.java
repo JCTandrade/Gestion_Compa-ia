@@ -19,7 +19,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -40,6 +42,7 @@ class EmpleadoControllerTest {
     ResponseGenerico responseGenerico;
 
     EmpleadosEntity empleado;
+    Long idEmpleado = 1L;
 
 
     @BeforeEach
@@ -89,7 +92,6 @@ class EmpleadoControllerTest {
     @Test
     void guardarCrearEmpleadoExitoso() throws Exception {
        when(iEmpleadoService.guardar(empleadoRequestDto)).thenReturn(responseGenerico);
-
 
         mockMvc.perform(post(URL + "guardar")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -141,7 +143,6 @@ class EmpleadoControllerTest {
 
     @Test
     void buscarEmpleadoPorIdExitoso() throws Exception {
-        Long idEmpleado = 1L;
 
         responseGenerico.setData(empleado);
 
@@ -174,6 +175,73 @@ class EmpleadoControllerTest {
                 .andExpect(jsonPath("$.status").value("NOT_FOUND"))
                 .andExpect(jsonPath("$.estadoOperacion").value("ERROR"))
                 .andExpect(jsonPath("$.message").value("Empleado no encontrado"));
+    }
+
+    @Test
+    void testEliminarEmpleadoExitoso() throws Exception {
+        ResponseGenerico response = new ResponseGenerico(HttpStatus.OK, EstadosEnum.SUCCESS, "La operacion se realizado de manera correcta", null);
+
+        when(iEmpleadoService.eliminar(idEmpleado)).thenReturn(response);
+
+        mockMvc.perform(delete(URL + "/eliminar/{id}", idEmpleado)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.estadoOperacion").value("SUCCESS"))
+                .andExpect(jsonPath("$.message").value("La operacion se realizado de manera correcta"))
+                .andExpect(jsonPath("$.data").isEmpty());
+
+        verify(iEmpleadoService, times(1)).eliminar(idEmpleado);
+    }
+
+    @Test
+    void testActualizarEmpleadoExitoso() throws Exception {
+        EmpleadoRequestDto empleadoRequestDto = new EmpleadoRequestDto();
+        empleadoRequestDto.setIdEmpleado(idEmpleado);
+        empleadoRequestDto.setNombre("Mario");
+        empleadoRequestDto.setApellido("Marcos");
+        empleadoRequestDto.setEmail("carlos@gmail.com");
+        empleadoRequestDto.setTelefono("3214568750");
+
+        ResponseGenerico response = new ResponseGenerico(HttpStatus.OK, EstadosEnum.SUCCESS, "La operacion se realizado de manera correcta", empleadoRequestDto);
+
+        when(iEmpleadoService.actualizar(eq(idEmpleado), any(EmpleadoRequestDto.class))).thenReturn(response);
+
+        mockMvc.perform(put(URL + "/actualizar/{id}", idEmpleado)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idEmpleado\":1,\"nombre\":\"Mario\",\"apellido\":\"Marcos\",\"email\":\"carlos@gmail.com\",\"telefono\":\"3214568750\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.estadoOperacion").value("SUCCESS"))
+                .andExpect(jsonPath("$.message").value("La operacion se realizado de manera correcta"))
+                .andExpect(jsonPath("$.data.idEmpleado").value(idEmpleado))
+                .andExpect(jsonPath("$.data.nombre").value("Mario"))
+                .andExpect(jsonPath("$.data.apellido").value("Marcos"))
+                .andExpect(jsonPath("$.data.email").value("carlos@gmail.com"))
+                .andExpect(jsonPath("$.data.telefono").value("3214568750"));
+
+        verify(iEmpleadoService, times(1)).actualizar(eq(idEmpleado), any(EmpleadoRequestDto.class));
+    }
+
+    @Test
+    void testActualizarEmpleadoIdNoCoincide() throws Exception {
+        EmpleadoRequestDto empleadoRequestDto = new EmpleadoRequestDto();
+        empleadoRequestDto.setIdEmpleado(2L);
+
+        ResponseGenerico response = new ResponseGenerico(HttpStatus.BAD_REQUEST, EstadosEnum.ERROR, "Error: la información suministrada no coincide.", null);
+
+        when(iEmpleadoService.actualizar(eq(idEmpleado), any(EmpleadoRequestDto.class))).thenReturn(response);
+
+        mockMvc.perform(put(URL + "/actualizar/{id}", idEmpleado)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idEmpleado\":2,\"nombre\":\"Mario\",\"apellido\":\"Marcos\",\"email\":\"carlos@gmail.com\",\"telefono\":\"3214568750\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.estadoOperacion").value("ERROR"))
+                .andExpect(jsonPath("$.message").value("Error: la información suministrada no coincide."))
+                .andExpect(jsonPath("$.data").isEmpty());
+
+        verify(iEmpleadoService, times(1)).actualizar(eq(idEmpleado), any(EmpleadoRequestDto.class));
     }
 
     private static String asJsonString(final Object obj) {
