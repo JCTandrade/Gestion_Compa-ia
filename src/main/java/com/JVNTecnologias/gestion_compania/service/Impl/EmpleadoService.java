@@ -9,10 +9,7 @@ import com.JVNTecnologias.gestion_compania.dto.ResponseGenerico;
 import com.JVNTecnologias.gestion_compania.entity.EmpleadosEntity;
 import com.JVNTecnologias.gestion_compania.entity.SucursalEntity;
 import com.JVNTecnologias.gestion_compania.mapper.EmpleadoMapper;
-import com.JVNTecnologias.gestion_compania.mapper.SucursalMapper;
 import com.JVNTecnologias.gestion_compania.repository.EmpleadoRepository;
-import com.JVNTecnologias.gestion_compania.repository.SucursalRepository;
-import com.JVNTecnologias.gestion_compania.service.ICompaniaService;
 import com.JVNTecnologias.gestion_compania.service.IEmpleadoService;
 import com.JVNTecnologias.gestion_compania.service.ISucursalService;
 import com.JVNTecnologias.gestion_compania.utils.GeneradorRespuesta;
@@ -48,11 +45,9 @@ public class EmpleadoService implements IEmpleadoService {
         empleadosEntity.setSucursal(sucursalEntity);
         empleadosEntity.setEstadoRegistro(EstadoRegistroEnum.ACTIVO);
 
-        empleadosEntity = this.empleadoRepository.save(empleadosEntity);
+       EmpleadosEntity empleadoRegistrado = this.empleadoRepository.save(empleadosEntity);
 
-        //TODO se debe crear una validacion para validar si se crea el empleado con su Id
-
-        EmpleadoDto empleadoDto = this.empleadoMapper.toEmpleadoDto(empleadosEntity);
+        EmpleadoDto empleadoDto = this.empleadoMapper.toEmpleadoDto(empleadoRegistrado);
 
         return this.generadorRespuesta.generarRespuesta(HttpStatus.OK, EstadosEnum.SUCCESS, Constant.Message.OPERACION_EXITO, empleadoDto);
     }

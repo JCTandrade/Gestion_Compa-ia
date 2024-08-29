@@ -129,6 +129,5 @@ public class CompaniaImplService implements ICompaniaService {
             log.error("Error al eliminar la compañia con el ID: {} con error : {}", id ,e.getMessage());
             return this.generadorRespuesta.generarRespuesta(HttpStatus.INTERNAL_SERVER_ERROR,EstadosEnum.ERROR,Constant.Message.ERROR_CONSULTADO.replace("%s", "compañia"),null);
         }
-
     }
 }

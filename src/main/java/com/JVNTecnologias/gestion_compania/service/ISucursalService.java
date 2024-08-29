@@ -1,6 +1,5 @@
 package com.JVNTecnologias.gestion_compania.service;
 
-import com.JVNTecnologias.gestion_compania.dto.CompaniaRequestDto;
 import com.JVNTecnologias.gestion_compania.dto.ResponseGenerico;
 import com.JVNTecnologias.gestion_compania.dto.SucursalRequestDto;
 import com.JVNTecnologias.gestion_compania.entity.SucursalEntity;

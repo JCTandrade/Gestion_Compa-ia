@@ -1,9 +1,7 @@
 package com.JVNTecnologias.gestion_compania.controller;
 
-import com.JVNTecnologias.gestion_compania.dto.CompaniaRequestDto;
 import com.JVNTecnologias.gestion_compania.dto.EmpleadoRequestDto;
 import com.JVNTecnologias.gestion_compania.dto.ResponseGenerico;
-import com.JVNTecnologias.gestion_compania.dto.SucursalRequestDto;
 import com.JVNTecnologias.gestion_compania.service.IEmpleadoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,9 +31,13 @@ public class EmpleadoController {
             @ApiResponse(responseCode = "200", description = "Se crea de manera correcta el empleado.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ResponseGenerico.class),
-                            examples = @ExampleObject(name = "example1", value = "{\"status\":\"OK\",\"message\":\"Se ha guardado el empleado\"," +
-                                    "\"data\":{\"idEmpleado\":52,\"nombre\":\"Carlos Marcos\"," + "\"apellido\":\"Menesses\"," +
-                                    "\"telefono\":\"3214567890\",\"email\":\"carlos@gmail.com\",\"createdAt\":\"2024-08-24\",\"updatedAt\":null}}"
+                            examples = @ExampleObject(name = "example1", value = "{\"status\":\"OK\",\"estadoOperacion\":\"SUCCESS\"," +
+                                    "\"message\":\"La operacion se realizado de manera correcta\",\"data\":{\"idEmpleado\":7," +
+                                    "\"nombre\":\"Nuevo Carlos\",\"apellido\":\"cali\",\"email\":\"cali@gmail.com\"," +
+                                    "\"telefono\":\"3224568750\",\"sucursal\":{\"companiaDto\":{\"idCompania\":1,\"nombre\":\"Empresas olimpica S.A\"}," +
+                                    "\"idSucursal\":1,\"nombre\":\"Almacen exito S.A\",\"responsable\":\"Carlos tovar\"," +
+                                    "\"direccion\":\"Calle 40 # 31-3A\",\"telefono\":\"0018002882\"," +
+                                    "\"email\":\"Olimpica@gmail.com\",\"estadoRegistro\":\"ACTIVO\"}}}"
                             )))
     })
     public ResponseEntity<ResponseGenerico> guardar(@Valid @RequestBody EmpleadoRequestDto empleadoRequestDto) {
@@ -50,12 +52,12 @@ public class EmpleadoController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ResponseGenerico.class),
                             examples = @ExampleObject(name = "example1", value = "{\"status\":\"OK\",\"estadoOperacion\":\"SUCCESS\"," +
-                                    "\"message\":\"Se ha consultado de manera correcta.\",\"data\":[{\"idCompania\":1,\"nombre\":\"Empresas olimpica S.A\"," +
-                                    "\"nit\":\"123456-7363\",\"propietario\":\"Carlos mario Tovar\",\"direccion\":\"Calle 40 # 31-3A\"," +
-                                    "\"telefono\":\"0018002882\",\"email\":\"Olimpica@gmail.com\",\"createdAt\":\"2024-08-26\",\"updatedAt\":null," +
-                                    "\"estadoRegistro\":ACTIVO},{\"idCompania\":2,\"nombre\":\"Exito S.A\",\"nit\":\"123423456-7363\"," +
-                                    "\"propietario\":\"Pedro mario Tovar\",\"direccion\":\"Calle 41 # 31-3A\",\"telefono\":\"0018002882\"," +
-                                    "\"email\":\"exito@gmail.com\",\"createdAt\":\"2024-08-26\",\"updatedAt\":null,\"estadoRegistro\":ACTIVO}]}"
+                                    "\"message\":\"La operacion se realizado de manera correcta\",\"data\":[{\"idEmpleado\":7," +
+                                    "\"nombre\":\"Nuevo Carlos\",\"apellido\":\"cali\",\"email\":\"cali@gmail.com\"," +
+                                    "\"telefono\":\"3224568750\",\"sucursal\":{\"companiaDto\":{\"idCompania\":1," +
+                                    "\"nombre\":\"Empresas olimpica S.A\"},\"idSucursal\":1,\"nombre\":\"Almacen exito S.A\"," +
+                                    "\"responsable\":\"Carlos tovar\",\"direccion\":\"Calle 40 # 31-3A\",\"telefono\":\"0018002882\"," +
+                                    "\"email\":\"Olimpica@gmail.com\",\"estadoRegistro\":\"ACTIVO\"}}]}"
                             )))
     })
     public ResponseEntity<ResponseGenerico> listar() {
@@ -71,10 +73,11 @@ public class EmpleadoController {
                             schema = @Schema(implementation = ResponseGenerico.class),
                             examples = @ExampleObject(name = "example1", value = "{\"status\":\"OK\",\"estadoOperacion\":\"SUCCESS\"," +
                                     "\"message\":\"La operacion se realizado de manera correcta\"," +
-                                    "\"data\":{\"companiaDto\":{\"idCompania\":1,\"nombre\":\"Empresas olimpica S.A\"}," +
-                                    "\"idSucursal\":3,\"nombre\":\"Pinturas Cali S.A\",\"responsable\":\"Pedro tovar\"," +
-                                    "\"direccion\":\"Calle 40 # 31-3A\",\"telefono\":\"0018002882\",\"email\":\"taller@gmail.com\"," +
-                                    "\"estadoRegistro\":\"ACTIVO\"}}"
+                                    "\"data\":{\"idEmpleado\":7,\"nombre\":\"Nuevo Carlos\",\"apellido\":\"cali\"," +
+                                    "\"email\":\"cali@gmail.com\",\"telefono\":\"3224568750\",\"sucursal\":{\"companiaDto\":{\"idCompania\":1," +
+                                    "\"nombre\":\"Empresas olimpica S.A\"},\"idSucursal\":1,\"nombre\":\"Almacen exito S.A\"," +
+                                    "\"responsable\":\"Carlos tovar\",\"direccion\":\"Calle 40 # 31-3A\"," +
+                                    "\"telefono\":\"0018002882\",\"email\":\"Olimpica@gmail.com\",\"estadoRegistro\":\"ACTIVO\"}}}"
                             ))),
             @ApiResponse(responseCode = "404", description = "El empliado con el ID especificado no fue encontrada.")
     })
@@ -90,11 +93,11 @@ public class EmpleadoController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ResponseGenerico.class),
                             examples = @ExampleObject(name = "example1", value = "{\"status\":\"OK\",\"estadoOperacion\":\"SUCCESS\"," +
-                                    "\"message\":\"La operacion se realizado de manera correcta\"," +
-                                    "\"data\":{\"companiaDto\":{\"idCompania\":1,\"nombre\":\"Empresas olimpica S.A\"}," +
-                                    "\"idSucursal\":2,\"nombre\":\"Taller Cali S.A\",\"responsable\":\"Pedro tovar\"," +
-                                    "\"direccion\":\"Calle 40 # 31-3A\",\"telefono\":\"0018002882\"," +
-                                    "\"email\":\"taller@gmail.com\",\"estadoRegistro\":\"ACTIVO\"}}"
+                                    "\"message\":\"La operacion se realizado de manera correcta\",\"data\":{\"idEmpleado\":1,\"" +
+                                    "nombre\":\"Mario\",\"apellido\":\"Marcos\",\"email\":\"carlos@gmail.com\",\"telefono\":\"3214568750\"," +
+                                    "\"sucursal\":{\"companiaDto\":{\"idCompania\":1,\"nombre\":\"Empresas olimpica S.A\"},\"idSucursal\":1," +
+                                    "\"nombre\":\"Almacen exito S.A\"," + "\"responsable\":\"Carlos tovar\",\"direccion\":\"Calle 40 # 31-3A\"," +
+                                    "\"telefono\":\"0018002882\",\"email\":\"Olimpica@gmail.com\",\"estadoRegistro\":\"ACTIVO\"}}}"
                             ))),
             @ApiResponse(responseCode = "400", description = "El empleado con el ID especificado y el ID del body no coincide.",
                     content = @Content(mediaType = "application/json",
@@ -118,10 +121,7 @@ public class EmpleadoController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ResponseGenerico.class),
                             examples = @ExampleObject(name = "example1", value = "{\"status\":\"OK\",\"estadoOperacion\":\"SUCCESS\"," +
-                                    "\"message\":\"Se ha actualizado de manera correcta.\"," +
-                                    "\"data\":{\"nombre\":\"Empresas olimpica S.A\",\"nit\":\"123456-7363\"," +
-                                    "\"propietario\":\"Carlos mario Tovar\",\"direccion\":\"Calle 40 # 31-3A\"," +
-                                    "\"telefono\":\"0018002882\",\"email\":\"Olimpica@gmail.com\",\"estadoRegistro\":ACTIVO}}"
+                                    "\"message\":\"La operacion se realizado de manera correcta\",\"data\":null}"
                             ))),
             @ApiResponse(responseCode = "404", description = "El emplaado con el ID especificado no se encuentra.",
                     content = @Content(mediaType = "application/json",
